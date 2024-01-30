@@ -10,6 +10,7 @@ public:
     vector<int> wt;
     vector<int> ta;
 
+
     nopriority() {
         cout << "Enter Number of Processes: " << endl;
         cin >> n;
