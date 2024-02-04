@@ -34,15 +34,18 @@ public:
         for (int i = 0; i < n; i++) {
             ta[i] = p[i] + wt[i];
         }
-
+        cout << "Process Number   = ";
+        for (int i = 0; i < n; i++)
+            cout<<"P"<< i + 1<<" ";
+        cout<<endl;
         cout << "Waiting Time     = ";
         for (int i = 0; i < n; i++) {
-            cout << wt[i] << " ";
+            cout << wt[i] << "  ";
         }
         cout << endl;
         cout << "Turn Around Time = ";
         for (int i = 0; i < n; i++) {
-            cout << ta[i] << " ";
+            cout << ta[i] << "  ";
         }
     }
 };
