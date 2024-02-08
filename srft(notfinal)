@@ -1,0 +1,76 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct Process {
+    int id;
+    int arrival_time;
+    int burst_time;
+    int completion_time;
+    int remaining_time;
+
+    Process(const int i, const int at, const int bt) : id(i), arrival_time(at), burst_time(bt), completion_time(0), remaining_time(bt) {}
+};
+
+
+int main() {
+    int n;
+    cout << "Enter the number of processes:";
+    cin >> n;
+    cout << "\n";
+
+    vector<Process> processes;
+
+    for (int i = 0; i < n; ++i) {
+        int at, bt;
+        cout << "Process " << i + 1 << " -\nArrival Time:";
+        cin >> at;
+        cout << "Burst Time:";
+        cin >> bt;
+        cout << "\n";
+
+        processes.emplace_back(i + 1, at, bt);
+    }
+
+    sort(processes.begin(), processes.end(), [](auto &left, auto &right) {
+    return left.arrival_time < right.arrival_time;
+    });
+
+    int completed = 0;
+    int curr_time = 0;
+
+    while (completed < processes.size()) {
+        int index = -1;
+
+        sort(processes.begin(), processes.end(), [](auto &left, auto &right) {return left.remaining_time < right.remaining_time;});
+
+        for (int i = 0; i < processes.size(); ++i) {
+            if (not processes[i].completion_time && processes[i].arrival_time <= curr_time) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1) {
+            processes[index].remaining_time--;
+            if (processes[index].remaining_time == 0) {
+                processes[index].completion_time = curr_time + 1;
+                completed++;
+            }
+        }
+
+        curr_time++;
+    }
+
+    sort(processes.begin(), processes.end(), [](auto &left, auto &right) {
+    return left.id < right.id;
+    });
+
+    cout << "\nProcess\tCompletion Time\tTurnaround Time" << endl;
+    for (const auto& process : processes) {
+        cout << process.id << "\t" << process.completion_time << "\t\t" << process.completion_time - process.arrival_time << endl;
+    }
+
+    return 0;
